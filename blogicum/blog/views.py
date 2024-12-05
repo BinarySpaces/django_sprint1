@@ -54,7 +54,7 @@ def post_detail(request, post_id):
     post = next((post for post in posts if post['id'] == post_id), None)
 
     if post is None:
-        raise Http404('Пост не найден!')
+        raise Http404('Вероятно, введён некорректный номер поста!')
     return render(request, 'blog/detail.html', {'post': post})
 
 
