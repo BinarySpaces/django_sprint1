@@ -47,20 +47,18 @@ posts = [
 
 
 def index(request):
-    context = {'posts': reversed(posts)}
-    return render(request, 'blog/index.html', context)
+    return render(request, 'blog/index.html', {'posts': reversed(posts)})
 
 
-def post_detail(request, id):
-    if id < 0 or id >= len(posts):
+def post_detail(request, post_id):
+    post = next((post for post in posts if post['id'] == post_id), None)
+
+    if post is None:
         raise Http404('Пост не найден!')
-    context = {'post': posts[id]}
-    return render(request, 'blog/detail.html', context)
+    return render(request, 'blog/detail.html', {'post': post})
 
 
 def category_posts(request, category_slug):
-    context = {
-        'category_slug': category_slug,
-        'message': f'Публикации в категории {category_slug}'
-    }
-    return render(request, 'blog/category.html', context)
+    return render(
+        request, 'blog/category.html', {'category_slug': category_slug}
+    )
